@@ -1,0 +1,15 @@
+streamlit
+pymupdf
+scikit-learn
+sentence-transformers
+faiss-cpu
+rank-bm25
+pandas
+numpy<2
+Pillow
+plotly
+watchdog
+fastapi
+uvicorn
+pydantic
+requests

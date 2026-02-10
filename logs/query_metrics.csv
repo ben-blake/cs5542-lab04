@@ -1,0 +1,2 @@
+timestamp,query_id,retrieval_mode,top_k,latency_ms,Precision@5,Recall@10,evidence_ids_returned,faithfulness_pass,missing_evidence_behavior
+2026-02-10T13:34:08.337743,Q1,hybrid,8,67.75,0.4,0.667,impact_likelihood_matrix.png;risk_management.png;risk_management_process.png;doc3.pdf::p17;doc3.pdf::p30;doc3.pdf::p16;doc3.pdf::p29;doc3.pdf::p13,Yes,Pass
