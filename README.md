@@ -13,7 +13,7 @@ This is a deployable Multimodal RAG application built with Streamlit and a FastA
 ## 1. Public Deployment Link
 
 **Deployed application:**  
-- `https://your-repo-name.streamlit.app`
+[https://cs5542-lab04-bvybqldnqsft4xqmhvgesx.streamlit.app](https://cs5542-lab04-bvybqldnqsft4xqmhvgesx.streamlit.app)
 
 ---
 
