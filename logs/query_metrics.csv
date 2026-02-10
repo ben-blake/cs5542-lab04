@@ -1,2 +1,6 @@
 timestamp,query_id,retrieval_mode,top_k,latency_ms,Precision@5,Recall@10,evidence_ids_returned,faithfulness_pass,missing_evidence_behavior
 2026-02-10T13:34:08.337743,Q1,hybrid,8,67.75,0.4,0.667,impact_likelihood_matrix.png;risk_management.png;risk_management_process.png;doc3.pdf::p17;doc3.pdf::p30;doc3.pdf::p16;doc3.pdf::p29;doc3.pdf::p13,Yes,Pass
+2026-02-10T14:27:30.914218,Q2,hybrid,8,44110.84,0.4,1.0,zero_trust.png;doc4.pdf::p45;doc5.pdf::p7;doc5.pdf::p36;doc5.pdf::p32;doc5.pdf::p33;network_system_security.png;security_audit_process.png,Yes,Pass
+2026-02-10T14:27:38.816565,Q3,hybrid,8,59.91,0.2,1.0,doc4.pdf::p28;doc4.pdf::p30;doc5.pdf::p12;doc4.pdf::p46;doc4.pdf::p54;security_audit_process.png;risk_management.png;network_system_security.png,Yes,Pass
+2026-02-10T14:27:44.515790,Q4,hybrid,8,48.43,0.2,1.0,zero_trust.png;doc4.pdf::p45;doc5.pdf::p7;doc5.pdf::p33;doc5.pdf::p28;doc5.pdf::p32;risk_management_process.png;security_audit_process.png,Yes,Pass
+2026-02-10T14:27:48.424179,Q5,hybrid,8,51.15,0.0,0.0,doc3.pdf::p15;doc3.pdf::p30;doc3.pdf::p2;doc3.pdf::p5;doc3.pdf::p22;cyber_kill_chain.png;soc2_requirements.png;risk_management.png,Yes,Fail
