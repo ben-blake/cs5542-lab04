@@ -5,8 +5,8 @@ This is a deployable Multimodal RAG application built with Streamlit and a FastA
 ---
 
 ## Team Members
-*   **Ben Blake** (GenAI & Backend Lead) - [@ben-blake](https://github.com/ben-blake)
-*   **Tina Nguyen** (Data & Frontend Lead) - [@tinana2k](https://github.com/tinana2k)
+*   **Ben Blake** - [@ben-blake](https://github.com/ben-blake)
+*   **Tina Nguyen** - [@tinana2k](https://github.com/tinana2k)
 
 ---
 

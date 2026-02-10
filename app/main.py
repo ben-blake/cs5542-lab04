@@ -107,7 +107,7 @@ def main():
                 st.sidebar.error(f"Connection Failed: {e}")
                 st.sidebar.caption("Ensure `uvicorn api.server:app` is running.")
     else:
-        st.sidebar.info("Running in Standalone mode. No API server required.")
+        st.sidebar.info("Running in Standalone mode. No API server required on Streamlit Cloud.")
 
     # Retrieval Settings
 
