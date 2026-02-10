@@ -12,7 +12,10 @@ import requests
 from datetime import datetime
 from rag.pipeline import (
     evaluate_retrieval, # We still need this for evaluation logic
-    DATA_DIR
+    DATA_DIR,
+    load_and_index_data,
+    build_context,
+    simple_extractive_answer
 )
 
 # -----------------------------------------------------------------------------
@@ -85,20 +88,26 @@ def main():
     # --- Sidebar Controls ---
     st.sidebar.header("⚙️ Configuration")
     
-    # Backend Configuration (Always FastAPI)
+    # Backend Configuration
+    st.sidebar.markdown("### Backend Configuration")
+    execution_mode = st.sidebar.radio("Execution Mode", ["Client/Server (API)", "Standalone (Direct)"], index=1)
+    
     api_url = "http://127.0.0.1:8000"
     
-    st.sidebar.markdown("### Backend Status")
-    if st.sidebar.button("Check API Connection"):
-        try:
-            r = requests.get(f"{api_url}/health", timeout=2)
-            if r.status_code == 200:
-                st.sidebar.success("API is Online ✅")
-            else:
-                st.sidebar.error(f"API Error: {r.status_code}")
-        except Exception as e:
-            st.sidebar.error(f"Connection Failed: {e}")
-            st.sidebar.caption("Ensure `uvicorn api.server:app` is running.")
+    if execution_mode == "Client/Server (API)":
+        st.sidebar.markdown("### Backend Status")
+        if st.sidebar.button("Check API Connection"):
+            try:
+                r = requests.get(f"{api_url}/health", timeout=2)
+                if r.status_code == 200:
+                    st.sidebar.success("API is Online ✅")
+                else:
+                    st.sidebar.error(f"API Error: {r.status_code}")
+            except Exception as e:
+                st.sidebar.error(f"Connection Failed: {e}")
+                st.sidebar.caption("Ensure `uvicorn api.server:app` is running.")
+    else:
+        st.sidebar.info("Running in Standalone mode. No API server required.")
 
     # Retrieval Settings
 
@@ -147,30 +156,56 @@ def main():
         result_evidence_ids = []
 
         try:
-            # FastAPI Call (Always)
-            with st.spinner("Calling API..."):
-                payload = {
-                    "query": user_query,
-                    "method": method,
-                    "chunking": chunking,
-                    "top_k_text": top_k_text,
-                    "top_k_images": top_k_images,
-                    "top_k_evidence": top_k_evidence
-                }
-                resp = requests.post(f"{api_url}/query", json=payload, timeout=30)
-                resp.raise_for_status()
-                data = resp.json()
-                
-                generated_answer = data["answer"]
-                result_context = data["context"]
-                result_evidence = data["evidence"]
-                result_image_paths = data["image_paths"]
-                # Extract IDs from evidence list
-                result_evidence_ids = [e["id"] for e in result_evidence]
+            if execution_mode == "Client/Server (API)":
+                # FastAPI Call
+                with st.spinner("Calling API..."):
+                    payload = {
+                        "query": user_query,
+                        "method": method,
+                        "chunking": chunking,
+                        "top_k_text": top_k_text,
+                        "top_k_images": top_k_images,
+                        "top_k_evidence": top_k_evidence
+                    }
+                    resp = requests.post(f"{api_url}/query", json=payload, timeout=30)
+                    resp.raise_for_status()
+                    data = resp.json()
+                    
+                    generated_answer = data["answer"]
+                    result_context = data["context"]
+                    result_evidence = data["evidence"]
+                    result_image_paths = data["image_paths"]
+                    # Extract IDs from evidence list
+                    result_evidence_ids = [e["id"] for e in result_evidence]
+            else:
+                # Standalone Mode (Direct Call)
+                with st.spinner("Processing (Standalone)..."):
+                    # Load data (cached)
+                    data_pack = load_and_index_data()
+                    
+                    # 1. Retrieve
+                    result = build_context(
+                        query=user_query,
+                        data_pack=data_pack,
+                        method=method,
+                        chunking=chunking,
+                        top_k_text=top_k_text,
+                        top_k_images=top_k_images,
+                        top_k_evidence=top_k_evidence
+                    )
+                    
+                    # 2. Generate
+                    generated_answer = simple_extractive_answer(user_query, result["context"], result["evidence"])
+                    
+                    result_context = result["context"]
+                    result_evidence = result["evidence"]
+                    result_image_paths = result["image_paths"]
+                    result_evidence_ids = result["evidence_ids"]
 
         except Exception as e:
             st.error(f"Error executing query: {e}")
-            st.info("Make sure the API server is running: `uvicorn api.server:app --reload`")
+            if execution_mode == "Client/Server (API)":
+                st.info("Make sure the API server is running: `uvicorn api.server:app --reload`")
             return
         
         latency = time.time() - start_time

@@ -4,6 +4,12 @@ This is a deployable Multimodal RAG application built with Streamlit and a FastA
 
 ---
 
+## Team Members
+*   **Ben Blake** (GenAI & Backend Lead) - [@ben-blake](https://github.com/ben-blake)
+*   **Tina Nguyen** (Data & Frontend Lead) - [@tinana2k](https://github.com/tinana2k)
+
+---
+
 ## 1. Public Deployment Link
 
 **Deployed application:**  
@@ -27,8 +33,9 @@ This is a deployable Multimodal RAG application built with Streamlit and a FastA
    ```bash
    streamlit run app/main.py
    ```
+   *Note: The app supports a "Standalone Mode" (default) that runs without the separate API server. You can switch to "Client/Server (API)" mode in the sidebar if you want to use the FastAPI backend.*
 
-4. Open the UI at `http://localhost:8501`. Ensure the API is running at `http://127.0.0.1:8000` (use "Check API Connection" in the sidebar).
+4. Open the UI at `http://localhost:8501`.
 
 **Data:** Place your PDFs in `data/docs/` and images in `data/images/`.
 
